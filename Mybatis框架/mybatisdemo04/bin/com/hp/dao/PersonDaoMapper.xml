@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hp.dao.PersonDao">
+	<!-- 定义resultMap -->
+	<resultMap type="Person" id="personMap">
+		<!-- 主键 id-->
+		<id column="pid" property="id"/>
+		<!-- 普通字段 result-->
+		<result column="pname" property="name"/>
+		<result column="psex" property="sex"/>
+		<result column="pphone" property="phone"/>
+		<!-- 
+			封装关系属性：封装关系属性的类型是简单地java对象
+			javaType:指定关系属性类型的全限定名或别名
+		 -->
+		 <association property="ic" javaType="IdCard">
+		 	<id column="iid" property="id"/>
+		 	<result column="iphoto" property="photo"/>
+		 	<result column="iaddress" property="address"/>
+		 </association>
+	</resultMap>
+    <select id="selectById" resultMap="personMap">
+    	select p.id as pid,p.name as pname,p.sex as psex,p.phone as pphone,
+    	i.id as iid,i.photo as iphoto,i.address as iaddress 
+    	from person p join idcard i on p.id=i.id where p.id=#{id}
+    </select>
+</mapper>

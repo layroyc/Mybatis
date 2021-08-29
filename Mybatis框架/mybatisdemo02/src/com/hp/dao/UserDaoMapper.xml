@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace指定管理接口的全限定名 -->
+<mapper namespace="com.hp.dao.UserDao">
+	<!-- 查询	resultType返回值类型 -->
+	<select id="selectById" resultType="com.hp.entity.User">
+		select * from user where uid=#{uid}
+	</select>
+	
+	<!-- 查询多个参数 -->
+	<select id="selectUP" resultType="com.hp.entity.User">
+		<!--(1)通过下标的方式绑定  -->
+		<!-- select * from user where uname=#{0} and upassword=#{1} -->
+		<!--(2)通过注解的方式绑定（重点）	在接口的传参处写@Param(value="参数")value可省略 -->
+		select * from user where uname=#{uname} and upassword=#{upassword}
+	</select>
+	
+	<select id="selectUP2" resultType="com.hp.entity.User">
+		<!-- (3)通过map集合的方式绑定 -->
+		select * from user where uname=#{uname} and upassword=#{upassword}
+	</select>
+	
+	<!-- 全查操作	返回值类型是集合中的泛型： 包名.类名 -->
+	<select id="selectAll" resultType="com.hp.entity.User">
+		select * from user
+	</select>
+	
+	<!-- 模糊查询 -->
+	<select id="selectLike" resultType="com.hp.entity.User">
+		select * from user where uname like concat('%',#{uname},'%')
+	</select>
+	
+	<!-- 删除操作 -->
+	<delete id="delete">
+		delete from user where uid=#{uid}
+	</delete>
+	
+	<!-- 添加操作	(4)通过对象的方式绑定 使用什么类型，与类型中的属性名保持一致 -->
+	<!-- <insert id="add">
+		insert into user (uname,upassword) values (#{uname},#{upassword})
+	</insert> -->
+	
+	<!-- 添加操作的同时返回主键 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="uid">
+		insert into user (uname,upassword) values (#{uname},#{upassword})
+	</insert>
+	
+	<!-- 修改操作 -->
+	<update id="update">
+		update user set uname=#{uname},upassword=#{upassword} where uid=#{uid}
+	</update>
+</mapper>

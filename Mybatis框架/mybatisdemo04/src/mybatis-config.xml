@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<!-- 给实体类起别名 -->
+	<typeAliases>
+		<package name="com.hp.entity"/>
+	</typeAliases>
+	<!-- 配置mybatis数据库的运行环境 -->
+	<environments default="mysql">
+		<environment id="mysql">
+			<!-- 配置事务 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 配置数据源 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/ssm2?characterEncoding=utf-8"/>
+				<property name="username" value="root"/>
+				<property name="password" value="1234567"/>
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 注册mapper文件的位置 -->
+	<mappers>
+		<mapper resource="com/hp/dao/PersonDaoMapper.xml"/>
+		<mapper resource="com/hp/dao/ClazzDaoMapper.xml"/>
+		<mapper resource="com/hp/dao/StudentDaoMapper.xml"/>
+	</mappers>
+
+</configuration>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hp.dao.UserDao">
+<!-- 
+	${}取值时接口参数必须使用注解的方式绑定
+	${}取值时是以字符串拼接的方式生成sql语句
+	
+	${}与#{}的区别
+	${}是以字符串拼接方式生成sql语句, 存在sql注入风险
+	#{}是以占位符的方式生成sql语句
+ -->
+	<!-- 登录 -->
+	<select id="login" resultType="User">
+		<!-- select * from user where uname=#{uname} and upassword=#{upassword} -->
+		select * from user where uname='${uname}' and upassword='${upassword}'
+	</select>
+	<!-- 单查 -->
+	<select id="selectById" resultType="User">
+		<!-- select * from user where uid=#{uid} -->
+		select * from user where uid=${uid}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="selectLike" resultType="User">
+		<!-- select * from user where uname like concat('%',#{uname},'%') -->
+		select * from user where uname like concat('%','${uname}','%')
+	</select>
+	
+	<!-- 排序查询 -->
+	<select id="selectOrder" resultType="User">
+		select * from user order by ${desc}
+	</select>
+	<!-- 全查 -->
+	<select id="selectAll" resultType="User">
+		select * from user
+	</select>
+	<!-- 删除 -->
+	<delete id="delete">
+		<!-- delete from user where uid=#{uid} -->
+		delete from user where uid=${uid}
+	</delete>
+	<!-- 修改 -->
+	<update id="update">
+		<!-- update user set uname=#{uname},upassword=#{upassword},age=#{age},sex=#{sex} where uid=#{uid} -->
+		update user set uname='${uname}',upassword='${upassword}',age=${age},sex='${sex}' where uid=${uid}
+	</update>
+	<!-- 添加 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="uid">
+		<!-- insert into user (uname,upassword,age,sex) values(#{uname},#{upassword},#{age},#{sex}) -->
+		insert into user (uname,upassword,age,sex) values('${uname}','${upassword}',${age},'${sex}')
+	</insert>
+</mapper>

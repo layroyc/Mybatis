@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hp.dao.ClazzDao">
+	<resultMap type="Clazz" id="clazzMap">
+		<id column="zid" property="id"/>
+		<result column="zcname" property="cname" />
+		
+		<!-- 封装关系属性：此时关系属性是一个list集合 -->
+		<collection property="students" ofType="Student">
+			<id column="sid" property="id"/>
+			<result column="name" property="username"/>
+			<result column="ssex" property="sex"/>
+			<result column="scid" property="cid"/>
+			
+		</collection>
+	</resultMap>
+	<select id="selectById" resultMap="clazzMap">
+		select z.id as zid,z.cname as zcname,
+		s.id as sid,s.username as name,s.sex as ssex,s.cid as scid
+		from clazz z join student s on z.id = s.id where z.id=#{id}
+	</select>
+</mapper>
